@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'account.dart';
 import 'map.dart';
 import 'list.dart';
+import 'star.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,7 +30,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     MapScreen(),
     PickleballListScreen(),
-    EmptyScreen(title: ''),
+    StarScreen(),
     AccountScreen(),
   ];
 
@@ -70,10 +71,7 @@ class EmptyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        backgroundColor: Color(0xFF0047AB),
-      ),
+
       body: Center(child: Text('Trang $title đang phát triển')),
     );
   }

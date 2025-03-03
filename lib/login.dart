@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  "ALOBO - Đặt lịch online sân thể thao",
+                  "Đặt lịch online sân thể thao",
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.grey[700]),
                 ),
