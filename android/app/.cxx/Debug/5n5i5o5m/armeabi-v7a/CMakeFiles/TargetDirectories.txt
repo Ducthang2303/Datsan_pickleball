@@ -1,0 +1,2 @@
+/Users/mimimac/StudioProjects/pickleball/android/app/.cxx/Debug/5n5i5o5m/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/mimimac/StudioProjects/pickleball/android/app/.cxx/Debug/5n5i5o5m/armeabi-v7a/CMakeFiles/rebuild_cache.dir
