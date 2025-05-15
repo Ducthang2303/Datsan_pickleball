@@ -1,0 +1,2 @@
+D:/pickleball/android/app/.cxx/Debug/5l655z5w/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/pickleball/android/app/.cxx/Debug/5l655z5w/armeabi-v7a/CMakeFiles/rebuild_cache.dir

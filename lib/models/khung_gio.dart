@@ -1,27 +1,33 @@
 class KhungGio {
-  final int khungGioId;
   final String gioBatDau;
   final String gioKetThuc;
+  int trangThai; // Using int: 0=Available, 1=Booked, 2=Locked
+  int giaTien;
 
   KhungGio({
-    required this.khungGioId,
     required this.gioBatDau,
     required this.gioKetThuc,
+    this.trangThai = 0, // Default is 0 (available)
+    required this.giaTien,
   });
 
-  factory KhungGio.fromJson(Map<String, dynamic> json) {
+  factory KhungGio.fromMap(Map<String, dynamic> map) {
     return KhungGio(
-      khungGioId: json['KHUNG_GIO_ID'],
-      gioBatDau: json['GIO_BAT_DAU'],
-      gioKetThuc: json['GIO_KET_THUC'],
+      gioBatDau: map['gioBatDau'] ?? '',
+      gioKetThuc: map['gioKetThuc'] ?? '',
+      trangThai: map['trangThai'] ?? 0, // Default to 0 if null
+      giaTien: map['giaTien'] ?? '',
     );
   }
 
-  Map<String, dynamic> toJson() {
+
+
+  Map<String, dynamic> toMap() {
     return {
-      'KHUNG_GIO_ID': khungGioId,
-      'GIO_BAT_DAU': gioBatDau,
-      'GIO_KET_THUC': gioKetThuc,
+      'gioBatDau': gioBatDau,
+      'gioKetThuc': gioKetThuc,
+      'trangThai': trangThai,
+      'giaTien': giaTien,
     };
   }
 }
