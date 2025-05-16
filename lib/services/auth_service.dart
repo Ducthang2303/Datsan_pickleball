@@ -6,7 +6,6 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Đăng nhập & lấy thông tin người dùng từ Firestore
   Future<NguoiDung?> signInWithEmailAndPassword(String email, String password) async {
     try {
       FirebaseAuth.instance.setLanguageCode("vi");
@@ -22,7 +21,6 @@ class AuthService {
 
       String uid = user.uid;
 
-      // Lấy thông tin user từ Firestore
       DocumentSnapshot<Map<String, dynamic>> userDoc =
       await _firestore.collection("NGUOIDUNG").doc(uid).get();
 

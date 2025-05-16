@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pickleball/screens/Dang_nhap/dang_nhap.dart';
+import 'package:pickleball/views/Dang_nhap/dang_nhap.dart';
 import 'models/nguoi_dung.dart';
-import 'screens/Tai_khoan/tai_khoan.dart';
-import 'screens/ban_do.dart';
-import '/screens/ds_khu.dart';
+import 'views/Tai_khoan/tai_khoan.dart';
+import 'views/ban_do.dart';
+import '/views/ds_khu.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'screens/tin_tuc.dart';
+import 'views/tin_tuc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: Color(0xFF0047AB)),
-      home: LoginScreen(), // Thay thế bằng MainScreen,
+      home: LoginScreen(),
     );
   }
 }
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 class MainScreen extends StatefulWidget {
   final NguoiDung user;
 
-  MainScreen({required this.user}); // Thêm user vào constructor
+  MainScreen({required this.user});
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -40,9 +40,9 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final List<Widget> _screens = [
       MapScreen(),
-      PickleballListScreen(user: widget.user), // Truyền user vào đây
+      PickleballListScreen(user: widget.user),
       StarScreen(),
-      AccountScreen(user: widget.user), // Truyền user vào đây
+      AccountScreen(user: widget.user),
     ];
 
     return Scaffold(

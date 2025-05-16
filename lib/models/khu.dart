@@ -6,7 +6,7 @@ class Khu {
 
   Khu({required this.id, required this.ma, required this.ten, required this.diachi});
 
-  // Chuyển dữ liệu từ Firestore sang đối tượng Khu
+
   factory Khu.fromMap(Map<String, dynamic> data, String docId) {
     return Khu(
       id: docId,
@@ -16,7 +16,7 @@ class Khu {
     );
   }
 
-  // Chuyển đối tượng Khu thành Map để lưu vào Firestore
+
   Map<String, dynamic> toMap() {
     return {
       "MA": ma,

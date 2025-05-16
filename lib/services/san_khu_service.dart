@@ -12,7 +12,7 @@ class SanKhuService {
   final CollectionReference _lichSanCollection = FirebaseFirestore.instance
       .collection('SAN_KHUNGGIO');
 
-  // 📌 Lấy danh sách khu
+
   Future<List<Khu>> getAllKhu() async {
     try {
       QuerySnapshot snapshot = await _khuCollection.get();
@@ -24,7 +24,7 @@ class SanKhuService {
     }
   }
 
-  // 📌 Lấy danh sách sân
+
   Future<List<San>> getAllSan() async {
     try {
       QuerySnapshot snapshot = await _sanCollection.get();
@@ -36,7 +36,7 @@ class SanKhuService {
     }
   }
 
-  // 📌 Lấy danh sách sân theo khu
+
   Future<List<San>> getSanByKhu(String maKhu) async {
     try {
       QuerySnapshot snapshot = await _sanCollection.where(
@@ -49,7 +49,7 @@ class SanKhuService {
     }
   }
 
-  // 📌 Lấy danh sách khung giờ của một sân theo ngày
+
   Future<List<SanKhungGio>> getKhungGioBySan(String maSan, String ngay) async {
     try {
       QuerySnapshot snapshot = await _lichSanCollection

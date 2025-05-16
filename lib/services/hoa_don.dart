@@ -115,7 +115,6 @@ class HoaDonService {
 
   Future<List<HoaDon>> getHoaDonByDate(String ngay) async {
     try {
-      // Since khungGio is a list, we need to fetch all documents and filter client-side
       final QuerySnapshot result = await hoaDonCollection
           .orderBy('thoiGianTao', descending: true)
           .get();
@@ -123,8 +122,6 @@ class HoaDonService {
       final List<HoaDon> hoaDons = result.docs.map((doc) {
         return HoaDon.fromMap(doc.data() as Map<String, dynamic>, doc.id);
       }).toList();
-
-      // Filter invoices where any khungGio entry matches the date
       return hoaDons.where((hoaDon) {
         return hoaDon.khungGio.any((kg) => kg.ngay == ngay);
       }).toList();
