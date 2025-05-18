@@ -5,7 +5,7 @@ import 'views/Tai_khoan/tai_khoan.dart';
 import 'views/ban_do.dart';
 import '/views/ds_khu.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'views/tin_tuc.dart';
+import 'views/Tin_tuc/tin_tuc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

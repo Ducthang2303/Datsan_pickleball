@@ -5,50 +5,60 @@ import '../models/khu.dart';
 import '../models/san_khunggio.dart';
 
 class SanKhuService {
-  final CollectionReference _sanCollection = FirebaseFirestore.instance
-      .collection('SAN');
-  final CollectionReference _khuCollection = FirebaseFirestore.instance
-      .collection('KHU');
-  final CollectionReference _lichSanCollection = FirebaseFirestore.instance
-      .collection('SAN_KHUNGGIO');
-
+  final CollectionReference _sanCollection = FirebaseFirestore.instance.collection('SAN');
+  final CollectionReference _khuCollection = FirebaseFirestore.instance.collection('KHU');
+  final CollectionReference _lichSanCollection = FirebaseFirestore.instance.collection('SAN_KHUNGGIO');
 
   Future<List<Khu>> getAllKhu() async {
     try {
       QuerySnapshot snapshot = await _khuCollection.get();
-      return snapshot.docs.map((doc) =>
-          Khu.fromMap(doc.data() as Map<String, dynamic>, doc.id)).toList();
+      List<Khu> khuList = snapshot.docs
+          .map((doc) => Khu.fromMap(doc.data() as Map<String, dynamic>, doc.id))
+          .toList();
+
+      // Sort khuList by MA in ascending order
+      khuList.sort((a, b) => a.ma.compareTo(b.ma));
+
+      return khuList;
     } catch (e) {
       print("Lỗi khi lấy danh sách khu: $e");
       return [];
     }
   }
 
-
   Future<List<San>> getAllSan() async {
     try {
       QuerySnapshot snapshot = await _sanCollection.get();
-      return snapshot.docs.map((doc) =>
-          San.fromMap(doc.data() as Map<String, dynamic>, doc.id)).toList();
+      List<San> sanList = snapshot.docs
+          .map((doc) => San.fromMap(doc.data() as Map<String, dynamic>, doc.id))
+          .toList();
+
+      // Sort sanList by TEN in ascending order
+      sanList.sort((a, b) => a.ten.compareTo(b.ten));
+
+      return sanList;
     } catch (e) {
       print("Lỗi khi lấy danh sách sân: $e");
       return [];
     }
   }
 
-
   Future<List<San>> getSanByKhu(String maKhu) async {
     try {
-      QuerySnapshot snapshot = await _sanCollection.where(
-          'MA_KHU', isEqualTo: maKhu).get();
-      return snapshot.docs.map((doc) =>
-          San.fromMap(doc.data() as Map<String, dynamic>, doc.id)).toList();
+      QuerySnapshot snapshot = await _sanCollection.where('MA_KHU', isEqualTo: maKhu).get();
+      List<San> sanList = snapshot.docs
+          .map((doc) => San.fromMap(doc.data() as Map<String, dynamic>, doc.id))
+          .toList();
+
+      // Sort sanList by TEN in ascending order
+      sanList.sort((a, b) => a.ten.compareTo(b.ten));
+
+      return sanList;
     } catch (e) {
       print("Lỗi khi lấy danh sách sân theo khu: $e");
       return [];
     }
   }
-
 
   Future<List<SanKhungGio>> getKhungGioBySan(String maSan, String ngay) async {
     try {
@@ -57,8 +67,8 @@ class SanKhuService {
           .where('NGAY', isEqualTo: ngay)
           .get();
 
-      return snapshot.docs.map((doc) =>
-          SanKhungGio.fromMap(doc.data() as Map<String, dynamic>, doc.id))
+      return snapshot.docs
+          .map((doc) => SanKhungGio.fromMap(doc.data() as Map<String, dynamic>, doc.id))
           .toList();
     } catch (e) {
       print("Lỗi khi lấy khung giờ của sân $maSan vào ngày $ngay: $e");

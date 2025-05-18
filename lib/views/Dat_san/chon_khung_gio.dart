@@ -128,7 +128,6 @@ class _ChonKhungGioScreenState extends State<ChonKhungGioScreen> {
       if (index != -1) {
         selectedTimeSlots.removeAt(index);
       } else {
-        // If not selected, add it
         selectedTimeSlots.add({
           'ngay': ngay,
           'khungGio': khungGio,
@@ -171,7 +170,7 @@ class _ChonKhungGioScreenState extends State<ChonKhungGioScreen> {
 
     switch (khungGio.trangThai) {
       case 0:
-        backgroundColor = isSelected ? Color(0xFF4CAF50) : Color(0xFFC8E6C9); // Darker green when selected
+        backgroundColor = isSelected ? Color(0xFF4CAF50) : Color(0xFFC8E6C9);
         statusText = "Còn trống";
         isBookable = true;
         break;
@@ -183,6 +182,11 @@ class _ChonKhungGioScreenState extends State<ChonKhungGioScreen> {
       case 2:
         backgroundColor = Color(0xFFEEAAAA);
         statusText = "Đã khóa";
+        isBookable = false;
+        break;
+      case 3:
+        backgroundColor = Color(0xFFFFDAB9);
+        statusText = "Đang chờ duyệt";
         isBookable = false;
         break;
       default:
@@ -217,13 +221,13 @@ class _ChonKhungGioScreenState extends State<ChonKhungGioScreen> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                 decoration: BoxDecoration(
-                  color: isBookable ? Colors.green.withOpacity(0.1) : Colors.red.withOpacity(0.1),
+                  color: isBookable ? Colors.green.withOpacity(0.1) : (khungGio.trangThai == 3 ? Colors.orange.withOpacity(0.3) : Colors.red.withOpacity(0.1)),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
                   statusText,
                   style: TextStyle(
-                    color: isBookable ? Colors.black : Colors.black,
+                    color: khungGio.trangThai == 3 ? Colors.orange[900] : Colors.black,
                     fontWeight: FontWeight.w500,
                     fontSize: 12,
                   ),

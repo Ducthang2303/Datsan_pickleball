@@ -7,6 +7,7 @@ import '../Dang_nhap/dang_nhap.dart';
 import '../../models/nguoi_dung.dart';
 import '../../models/hoa_don.dart';
 import 'package:pickleball/services/hoa_don.dart';
+import 'package:pickleball/views/Tai_khoan/chi_tiet_hoa_don.dart'; // Import the new screen
 
 class AccountScreen extends StatefulWidget {
   final NguoiDung user;
@@ -313,7 +314,8 @@ class _AccountScreenState extends State<AccountScreen> with WidgetsBindingObserv
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.calendar_today_outlined, size: 60, color: Colors.grey[400]),
+                          Icon(Icons.calendar_today_outlined,
+                              size: 60, color: Colors.grey[400]),
                           SizedBox(height: 16),
                           Text(
                             "Bạn chưa có lịch đặt nào!",
@@ -338,106 +340,123 @@ class _AccountScreenState extends State<AccountScreen> with WidgetsBindingObserv
                         itemCount: _hoaDonList.length,
                         itemBuilder: (context, index) {
                           final HoaDon hoaDon = _hoaDonList[index];
-                          return Card(
-                            elevation: 2,
-                            margin: EdgeInsets.symmetric(vertical: 8),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              side: BorderSide(
-                                color: _getStatusColor(hoaDon.trangThai).withOpacity(0.3),
-                                width: 1,
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      HoaDonDetailScreen(hoaDon: hoaDon),
+                                ),
+                              );
+                            },
+                            child: Card(
+                              elevation: 2,
+                              margin: EdgeInsets.symmetric(vertical: 8),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                side: BorderSide(
+                                  color:
+                                  _getStatusColor(hoaDon.trangThai).withOpacity(0.3),
+                                  width: 1,
+                                ),
                               ),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          "${hoaDon.tenSan} - ${hoaDon.tenKhu}",
+                              child: Padding(
+                                padding: EdgeInsets.all(16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            "${hoaDon.tenSan} - ${hoaDon.tenKhu}",
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 8, vertical: 4),
+                                          decoration: BoxDecoration(
+                                            color: _getStatusColor(hoaDon.trangThai)
+                                                .withOpacity(0.2),
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                          child: Text(
+                                            hoaDon.trangThai,
+                                            style: TextStyle(
+                                              color: _getStatusColor(hoaDon.trangThai),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Divider(height: 16),
+                                    // Display all time slots in khungGio
+                                    ...hoaDon.khungGio.asMap().entries.map((entry) {
+                                      int idx = entry.key;
+                                      KhungGioHoaDon khungGio = entry.value;
+                                      String displayDate = DateFormat('dd/MM/yyyy')
+                                          .format(DateFormat('yyyy-MM-dd')
+                                          .parse(khungGio.ngay));
+                                      return Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Icon(Icons.calendar_today,
+                                                  size: 16, color: Colors.grey),
+                                              SizedBox(width: 8),
+                                              Text(
+                                                "Ngày ${idx + 1}: $displayDate",
+                                                style: TextStyle(fontSize: 14),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(height: 4),
+                                          Row(
+                                            children: [
+                                              Icon(Icons.access_time,
+                                                  size: 16, color: Colors.grey),
+                                              SizedBox(width: 8),
+                                              Text(
+                                                "Giờ ${idx + 1}: ${khungGio.gioBatDau} - ${khungGio.gioKetThuc}",
+                                                style: TextStyle(fontSize: 14),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(height: 8),
+                                        ],
+                                      );
+                                    }).toList(),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          "Giá: ",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                        Text(
+                                          _formatCurrency(hoaDon.giaTien),
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                        decoration: BoxDecoration(
-                                          color: _getStatusColor(hoaDon.trangThai).withOpacity(0.2),
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                        child: Text(
-                                          hoaDon.trangThai,
-                                          style: TextStyle(
-                                            color: _getStatusColor(hoaDon.trangThai),
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF0047AB),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Divider(height: 16),
-                                  // Display all time slots in khungGio
-                                  ...hoaDon.khungGio.asMap().entries.map((entry) {
-                                    int idx = entry.key;
-                                    KhungGioHoaDon khungGio = entry.value;
-                                    String displayDate = DateFormat('dd/MM/yyyy')
-                                        .format(DateFormat('yyyy-MM-dd').parse(khungGio.ngay));
-                                    return Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Icon(Icons.calendar_today, size: 16, color: Colors.grey),
-                                            SizedBox(width: 8),
-                                            Text(
-                                              "Ngày ${idx + 1}: $displayDate",
-                                              style: TextStyle(fontSize: 14),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height: 4),
-                                        Row(
-                                          children: [
-                                            Icon(Icons.access_time, size: 16, color: Colors.grey),
-                                            SizedBox(width: 8),
-                                            Text(
-                                              "Giờ ${idx + 1}: ${khungGio.gioBatDau} - ${khungGio.gioKetThuc}",
-                                              style: TextStyle(fontSize: 14),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height: 8),
                                       ],
-                                    );
-                                  }).toList(),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        "Giá: ",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                      Text(
-                                        _formatCurrency(hoaDon.giaTien),
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xFF0047AB),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           );
